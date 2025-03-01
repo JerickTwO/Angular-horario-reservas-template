@@ -6,7 +6,12 @@ interface FranjaHoraria {
   fin: string;
 }
 
-
+interface Reserva {
+  dia: string;
+  horaInicio: string;
+  horaFin: string;
+  tipo: string;
+}
 
 interface ReservaEntrada {
   idLaboratorio: string;
@@ -26,73 +31,50 @@ interface ReservaEntrada {
 })
 export class HorarioReservasComponent implements OnInit {
   @Input() dataset: ReservaEntrada[] = [
-    {
-      idLaboratorio: 'lab1',
-      dia: '2023-10-01',
-      hora_inicio: '08:00',
-      hora_fin: '10:00',
-      fecha: '2023-10-01',
-      tipo: 'Clase',
-    },
-    {
-      idLaboratorio: 'lab1',
-      dia: '2023-10-01',
-      hora_inicio: '10:00',
-      hora_fin: '12:00',
-      fecha: '2023-10-01',
-      tipo: 'Reunión',
-    },
-    {
-      idLaboratorio: 'lab4',
-      dia: '2023-10-02',
-      hora_inicio: '12:00',
-      hora_fin: '14:00',
-      fecha: '2023-10-02',
-      tipo: 'REu',
-    },
+    { idLaboratorio: 'lab1', dia: 'Lunes', hora_inicio: '08:30', hora_fin: '10:00', fecha: 'Lunes', tipo: 'clase' },
+    { idLaboratorio: 'lab1', dia: 'Martes', hora_inicio: '10:00', hora_fin: '11:30', fecha: 'Martes', tipo: 'practica' },
+    { idLaboratorio: 'lab2', dia: 'Miércoles', hora_inicio: '13:00', hora_fin: '14:30', fecha: 'Miércoles', tipo: 'examen' },
+    { idLaboratorio: 'lab3', dia: 'Jueves', hora_inicio: '16:00', hora_fin: '17:30', fecha: 'Jueves', tipo: 'clase' },
+    { idLaboratorio: 'lab2', dia: 'Viernes', hora_inicio: '19:00', hora_fin: '20:30', fecha: 'Viernes', tipo: 'practica' }
   ];
-  @Input() idLaboratorio = 'lab4';
+  @Input() idLaboratorio: string = '';
 
   franjasHorarias: FranjaHoraria[] = [
-    { inicio: '08:00', fin: '10:00' },
-    { inicio: '10:00', fin: '12:00' },
-    { inicio: '12:00', fin: '14:00' },
-    { inicio: '14:00', fin: '16:00' },
-    { inicio: '16:00', fin: '18:00' },
+    { inicio: '07:00', fin: '08:30' },
+    { inicio: '08:30', fin: '10:00' },
+    { inicio: '10:00', fin: '11:30' },
+    { inicio: '11:30', fin: '13:00' },
+    { inicio: '13:00', fin: '14:30' },
+    { inicio: '14:30', fin: '16:00' },
+    { inicio: '16:00', fin: '17:30' },
+    { inicio: '17:30', fin: '19:00' },
+    { inicio: '19:00', fin: '20:30' },
+    { inicio: '20:30', fin: '22:00' }
   ];
-
-  dias: string[] = ['2023-10-01', '2023-10-02', '2023-10-03'];
-
+  dias: string[] = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
   reservas: Reserva[] = [];
 
   ngOnInit(): void {
     this.procesarDatos();
-  }
+  } 
 
   private procesarDatos(): void {
-    const reservasFiltradas = this.dataset.filter(
-      (reserva) => reserva.idLaboratorio === this.idLaboratorio
-    );
+    const reservasFiltradas = this.dataset.filter(reserva => reserva.idLaboratorio === this.idLaboratorio);
 
-    this.reservas = reservasFiltradas.map((reserva) => {
+    this.reservas = reservasFiltradas.map(reserva => {
       return {
         dia: reserva.fecha,
         horaInicio: reserva.hora_inicio,
         horaFin: reserva.hora_fin,
-        tipo: reserva.tipo,
+        tipo: reserva.tipo
       };
     });
   }
 
-  obtenerReservasParaFranja(
-    dia: string,
-    franja: FranjaHoraria
-  ): ReservaEntrada | null {
-    return (
-      this.reservas.find(
-        (reserva) => reserva.dia === dia && this.estaReservada(franja, reserva)
-      ) || null
-    );
+  obtenerReservasParaFranja(dia: string, franja: FranjaHoraria): Reserva | null {
+    return this.reservas.find(reserva =>
+      reserva.dia === dia && this.estaReservada(franja, reserva)
+    ) || null;
   }
 
   private estaReservada(franja: FranjaHoraria, reserva: Reserva): boolean {

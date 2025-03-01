@@ -1,4 +1,3 @@
-import { Component, Input, OnInit } from '@angular/core';
 
 export interface ReservaEntrada {
   idLaboratorio: string;
@@ -18,4 +17,5 @@ export interface Reserva {
   dia: string; // "2025-03-01"
   horaInicio: string; // "08:00"
   horaFin: string; // "09:30"
+  tipo: string;
 }

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HorarioReservasComponent } from './horario-reservas/horario-reservas.component';
 import { SubmenuComponent } from './submenu/submenu.component';
-
+import { Laboratorio } from './model/laboratorio';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -12,18 +12,9 @@ import { SubmenuComponent } from './submenu/submenu.component';
 })
 export class AppComponent {
   title = 'mi-proyecto';
-  laboratoriosEjemplo = [
-    {
-      id: 'lab1',
-      nombre: 'Laboratorio A',
-    },
-    {
-      id: 'lab2',
-      nombre: 'Laboratorio B',
-    },
-    {
-      id: 'lab3',
-      nombre: 'Laboratorio C',
-    },
+  laboratorios = [
+    { id: 'lab1', nombre: 'Laboratorio A' },
+    { id: 'lab2', nombre: 'Laboratorio B' },
+    { id: 'lab3', nombre: 'Laboratorio C' },
   ];
 }
