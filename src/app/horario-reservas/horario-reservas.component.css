@@ -1,0 +1,47 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+th,
+td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+    min-width: 120px;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+.reservado {
+    color: white;
+    padding: 5px;
+    background-color: rebeccapurple;
+    border-radius: 4px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+/* Estilos para tipos de reservas */
+.normal {
+    background-color: blue;
+}
+
+.especial {
+    background-color: green;
+}
+
+/* Estilos para celdas disponibles */
+.disponible {
+    background-color: lightgray;
+    color: black;
+    padding: 5px;
+    border-radius: 4px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}

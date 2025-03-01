@@ -1,0 +1,43 @@
+<div class="submenu">
+  <!-- Menú de selección de laboratorio -->
+  <ul>
+    <li
+      *ngFor="let lab of laboratorios"
+      [class.active]="laboratorioSeleccionado?.id === lab.id"
+      (click)="seleccionarLaboratorio(lab)"
+    >
+      {{ lab.nombre }}
+    </li>
+  </ul>
+</div>
+
+<!-- Submenú interno con opciones del laboratorio -->
+<div *ngIf="laboratorioSeleccionado">
+  <h3>{{ laboratorioSeleccionado.nombre }}</h3>
+  <ul>
+    <li
+      *ngFor="let opcion of laboratorioSeleccionado.opciones"
+      [class.active]="opcionSeleccionada === opcion.id"
+      (click)="seleccionarOpcion(opcion.id)"
+    >
+      {{ opcion.nombre }}
+    </li>
+  </ul>
+</div>
+
+<!-- Contenido dinámico según la opción seleccionada -->
+<div class="contenido">
+  <ng-container
+    *ngIf="opcionSeleccionada === 'reservas' && laboratorioSeleccionado"
+  >
+    <app-horario-reservas
+      [dataset]="reservas"
+      [idLaboratorio]="laboratorioSeleccionado.id"
+    >
+    </app-horario-reservas>
+  </ng-container>
+
+  <ng-container *ngIf="opcionSeleccionada === 'reportes'">
+    <p>📊 Reportes del {{ laboratorioSeleccionado?.nombre }}</p>
+  </ng-container>
+</div>

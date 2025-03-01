@@ -1,0 +1,29 @@
+<table>
+  <thead>
+    <tr>
+      <th>Hora</th>
+      <th *ngFor="let dia of dias">{{ dia }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let franja of franjasHorarias">
+      <td>{{ franja.inicio }} - {{ franja.fin }}</td>
+      <td *ngFor="let dia of dias">
+        <ng-container
+          *ngIf="
+            obtenerReservasParaFranja(dia, franja) as reserva;
+            else disponible
+          "
+        >
+          <span class="reservado" [ngClass]="reserva.tipo">
+            {{ reserva.tipo }}
+          </span>
+        </ng-container>
+
+        <ng-template #disponible>
+          <span class="disponible">Disponible</span>
+        </ng-template>
+      </td>
+    </tr>
+  </tbody>
+</table>
