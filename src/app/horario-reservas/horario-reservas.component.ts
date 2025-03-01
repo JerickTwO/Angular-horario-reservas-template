@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface FranjaHoraria {
@@ -29,14 +29,8 @@ interface ReservaEntrada {
   templateUrl: './horario-reservas.component.html',
   styleUrl: './horario-reservas.component.css',
 })
-export class HorarioReservasComponent implements OnInit {
-  @Input() dataset: ReservaEntrada[] = [
-    { idLaboratorio: 'lab1', dia: 'Lunes', hora_inicio: '08:30', hora_fin: '10:00', fecha: 'Lunes', tipo: 'clase' },
-    { idLaboratorio: 'lab1', dia: 'Martes', hora_inicio: '10:00', hora_fin: '11:30', fecha: 'Martes', tipo: 'practica' },
-    { idLaboratorio: 'lab2', dia: 'Miércoles', hora_inicio: '13:00', hora_fin: '14:30', fecha: 'Miércoles', tipo: 'examen' },
-    { idLaboratorio: 'lab3', dia: 'Jueves', hora_inicio: '16:00', hora_fin: '17:30', fecha: 'Jueves', tipo: 'clase' },
-    { idLaboratorio: 'lab2', dia: 'Viernes', hora_inicio: '19:00', hora_fin: '20:30', fecha: 'Viernes', tipo: 'practica' }
-  ];
+export class HorarioReservasComponent implements OnInit, OnChanges {
+  @Input() dataset: ReservaEntrada[] = [];
   @Input() idLaboratorio: string = '';
 
   franjasHorarias: FranjaHoraria[] = [
@@ -56,10 +50,24 @@ export class HorarioReservasComponent implements OnInit {
 
   ngOnInit(): void {
     this.procesarDatos();
-  } 
+  }
+  
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['dataset'] || changes['idLaboratorio']) {
+      this.procesarDatos();
+    }
+  }
 
   private procesarDatos(): void {
+    if (!this.dataset || !this.idLaboratorio) {
+      return;
+    }
+    
+    console.log('Procesando datos para laboratorio:', this.idLaboratorio);
+    console.log('Dataset:', this.dataset);
+    
     const reservasFiltradas = this.dataset.filter(reserva => reserva.idLaboratorio === this.idLaboratorio);
+    console.log('Reservas filtradas:', reservasFiltradas);
 
     this.reservas = reservasFiltradas.map(reserva => {
       return {
@@ -69,6 +77,8 @@ export class HorarioReservasComponent implements OnInit {
         tipo: reserva.tipo
       };
     });
+    
+    console.log('Reservas procesadas:', this.reservas);
   }
 
   obtenerReservasParaFranja(dia: string, franja: FranjaHoraria): Reserva | null {

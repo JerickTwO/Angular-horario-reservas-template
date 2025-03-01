@@ -1,1 +1,9 @@
-<app-submenu [laboratorios]="laboratorios"></app-submenu>
+<app-submenu
+  [laboratorios]="laboratorios"
+  [reservas]="reservas"
+  (labSeleccionado)="onLabSeleccionado($event)"
+  (opcionSeleccionada)="onOpcionSeleccionada($event)"
+>
+</app-submenu>
+
+<router-outlet></router-outlet>
